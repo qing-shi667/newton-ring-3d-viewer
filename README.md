@@ -4,7 +4,7 @@
 
 ## Local Preview
 
-需要 Node.js 18 或更高版本。
+需要 Node.js 20.11 或更高版本。
 
 ```bash
 npm install
