@@ -27,6 +27,8 @@ test("page exposes two independent model viewer regions", async () => {
   assert.match(html, /id="microscope-viewer"/);
   assert.equal((html.match(/data-action="reset"/g) ?? []).length, 2);
   assert.match(html, /src\/main\.js/);
+  assert.match(html, /window\.addEventListener\("error"/);
+  assert.match(html, /window\.addEventListener\("unhandledrejection"/);
 });
 
 test("main module loads both models and the microscope completion", async () => {
@@ -34,6 +36,16 @@ test("main module loads both models and the microscope completion", async () => 
   assert.match(source, /newton-ring-clean\.glb/);
   assert.match(source, /travelling-microscope-source\.glb/);
   assert.match(source, /createMicroscopeLowerAssembly/);
+});
+
+test("vendored Three.js modules include their browser dependencies", async () => {
+  for (const path of [
+    "vendor/three/three.core.js",
+    "vendor/utils/BufferGeometryUtils.js",
+  ]) {
+    const info = await stat(new URL(path, ROOT));
+    assert.ok(info.size > 0, `${path} is empty`);
+  }
 });
 
 test("package exposes a local static preview command", async () => {

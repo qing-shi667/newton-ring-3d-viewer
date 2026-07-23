@@ -55,6 +55,24 @@
       </section>
     </main>
 
+    <script>
+      (() => {
+        const showBootError = (detail) => {
+          const message = detail || "三维功能启动失败";
+          document.querySelectorAll(".viewer-status").forEach((status) => {
+            status.hidden = false;
+            status.classList.add("is-error");
+            status.textContent = `三维功能启动失败：${message}`;
+          });
+        };
+        window.addEventListener("error", (event) => {
+          showBootError(event.error?.message || event.message);
+        });
+        window.addEventListener("unhandledrejection", (event) => {
+          showBootError(event.reason?.message || String(event.reason || "未知错误"));
+        });
+      })();
+    </script>
     <script type="module" src="./src/main.js"></script>
   </body>
 </html>
