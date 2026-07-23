@@ -1,0 +1,18 @@
+{
+  "name": "newton-ring-3d-viewer",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node scripts/serve.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "analyze:model": "node scripts/analyze-glb.mjs assets/models/source/newton-ring-source.glb",
+    "clean:model": "node scripts/clean-newton-model.mjs",
+    "inspect:model": "node scripts/export-component-map.mjs",
+    "render:model": "node scripts/render-component-projections.mjs"
+  },
+  "devDependencies": {
+    "jpeg-js": "^0.4.4",
+    "three": "^0.180.0"
+  }
+}
