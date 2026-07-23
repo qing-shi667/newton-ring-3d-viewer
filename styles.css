@@ -67,10 +67,9 @@ h2 {
   white-space: nowrap;
 }
 
-.viewer-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
+.viewer-shell {
+  width: min(100%, 1100px);
+  margin: 0 auto;
   padding: 18px clamp(18px, 4vw, 56px) 30px;
 }
 
@@ -172,10 +171,6 @@ h2 {
 
   .controls-note {
     white-space: normal;
-  }
-
-  .viewer-grid {
-    grid-template-columns: 1fr;
   }
 
   .model-viewport {

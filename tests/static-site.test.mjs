@@ -21,21 +21,21 @@ test("source models are valid GitHub-sized GLB files", async () => {
   }
 });
 
-test("page exposes two independent model viewer regions", async () => {
+test("page exposes only the microscope viewer", async () => {
   const html = await read("index.html");
-  assert.match(html, /id="newton-viewer"/);
+  assert.doesNotMatch(html, /id="newton-viewer"/);
   assert.match(html, /id="microscope-viewer"/);
-  assert.equal((html.match(/data-action="reset"/g) ?? []).length, 2);
+  assert.equal((html.match(/data-action="reset"/g) ?? []).length, 1);
   assert.match(html, /src\/main\.js/);
   assert.match(html, /window\.addEventListener\("error"/);
   assert.match(html, /window\.addEventListener\("unhandledrejection"/);
 });
 
-test("main module loads both models and the microscope completion", async () => {
+test("main module loads only the supplied microscope model", async () => {
   const source = await read("src/main.js");
-  assert.match(source, /newton-ring-clean\.glb/);
   assert.match(source, /travelling-microscope-source\.glb/);
-  assert.match(source, /createMicroscopeLowerAssembly/);
+  assert.doesNotMatch(source, /newton-ring-clean\.glb/);
+  assert.doesNotMatch(source, /createMicroscopeLowerAssembly/);
 });
 
 test("vendored Three.js modules include their browser dependencies", async () => {

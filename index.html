@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#edf1f3">
-    <title>牛顿环实验仪器 3D 查看</title>
+    <title>显微镜 3D 模型</title>
     <link rel="stylesheet" href="./styles.css">
     <script type="importmap">
       {
@@ -17,39 +17,24 @@
   <body>
     <header class="topbar">
       <div>
-        <p class="eyebrow">NEWTON'S RINGS LAB</p>
-        <h1>实验仪器 3D 查看</h1>
+        <p class="eyebrow">MICROSCOPE 3D VIEWER</p>
+        <h1>显微镜 3D 模型</h1>
       </div>
       <p class="controls-note">拖动旋转 · 滚轮或双指缩放</p>
     </header>
 
-    <main class="viewer-grid">
-      <section class="model-panel" aria-labelledby="newton-title">
-        <header class="panel-header">
-          <div>
-            <span class="panel-index">01</span>
-            <h2 id="newton-title">牛顿环仪</h2>
-          </div>
-          <button type="button" class="icon-button" data-action="reset" data-viewer="newton" aria-label="重置牛顿环仪视角" title="重置视角">
-            <span aria-hidden="true">↺</span>
-          </button>
-        </header>
-        <div id="newton-viewer" class="model-viewport" aria-label="牛顿环仪三维模型">
-          <div class="viewer-status" role="status">正在加载模型…</div>
-        </div>
-      </section>
-
+    <main class="viewer-shell">
       <section class="model-panel" aria-labelledby="microscope-title">
         <header class="panel-header">
           <div>
-            <span class="panel-index">02</span>
-            <h2 id="microscope-title">读数显微镜</h2>
+            <span class="panel-index">3D</span>
+            <h2 id="microscope-title">显微镜模型</h2>
           </div>
-          <button type="button" class="icon-button" data-action="reset" data-viewer="microscope" aria-label="重置读数显微镜视角" title="重置视角">
+          <button type="button" class="icon-button" data-action="reset" aria-label="重置显微镜视角" title="重置视角">
             <span aria-hidden="true">↺</span>
           </button>
         </header>
-        <div id="microscope-viewer" class="model-viewport" aria-label="读数显微镜三维模型">
+        <div id="microscope-viewer" class="model-viewport" aria-label="显微镜三维模型">
           <div class="viewer-status" role="status">正在加载模型…</div>
         </div>
       </section>
