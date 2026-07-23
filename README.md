@@ -2,6 +2,8 @@
 
 一个面向牛顿环曲率半径实验的静态三维查看页。页面把清理后的牛顿环仪和补齐下部结构的读数显微镜左右并排展示，两个模型可以独立旋转、缩放和复位。
 
+在线查看：<https://qing-shi667.github.io/newton-ring-3d-viewer/>
+
 ## Local Preview
 
 需要 Node.js 20.11 或更高版本。
