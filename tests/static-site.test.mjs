@@ -45,12 +45,17 @@ test("textured microscope and replacement clip assets are publishable GLBs", asy
 });
 
 test("silver rail texture is a publishable JPEG", async () => {
-  const bytes = await readFile(new URL(
-    "assets/textures/microscope/tripo-part-16-silver.jpg",
-    ROOT,
-  ));
-  assert.deepEqual([...bytes.subarray(0, 3)], [0xff, 0xd8, 0xff]);
-  assert.ok(bytes.length > 1000);
+  for (const name of [
+    "tripo-part-1-silver.jpg",
+    "tripo-part-16-silver.jpg",
+  ]) {
+    const bytes = await readFile(new URL(
+      `assets/textures/microscope/${name}`,
+      ROOT,
+    ));
+    assert.deepEqual([...bytes.subarray(0, 3)], [0xff, 0xd8, 0xff]);
+    assert.ok(bytes.length > 1000, `${name} is too small`);
+  }
 });
 
 test("main module loads only the supplied microscope model", async () => {
@@ -59,6 +64,7 @@ test("main module loads only the supplied microscope model", async () => {
   assert.match(source, /stage-clip-source\.glb/);
   assert.match(source, /replaceTexturedStageClips/);
   assert.match(source, /tripo-part-16-silver\.jpg/);
+  assert.match(source, /tripo-part-1-silver\.jpg/);
   assert.match(source, /applyMicroscopeSurfaceCorrections/);
   assert.match(source, /loadColorTexture/);
   assert.doesNotMatch(source, /createMicroscopeMaterials/);

@@ -7,11 +7,12 @@ import { createModelViewer, loadModelScene } from "./viewer.js";
 
 const clipModelPromise = loadModelScene("./assets/models/source/stage-clip-source.glb");
 clipModelPromise.catch(() => {});
-const railTexturePromise = loadColorTexture(
-  "./assets/textures/microscope/tripo-part-16-silver.jpg",
-).catch((error) => {
+const railTexturePromise = Promise.all([
+  loadColorTexture("./assets/textures/microscope/tripo-part-1-silver.jpg"),
+  loadColorTexture("./assets/textures/microscope/tripo-part-16-silver.jpg"),
+]).then(([part1, part16]) => ({ part1, part16 })).catch((error) => {
   console.error(error);
-  return null;
+  return { part1: null, part16: null };
 });
 
 const microscopeViewer = createModelViewer({
