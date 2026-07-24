@@ -13,7 +13,8 @@
     "clean:model": "node scripts/clean-newton-model.mjs",
     "inspect:model": "node scripts/export-component-map.mjs",
     "render:model": "node scripts/render-component-projections.mjs",
-    "export:clip": "node scripts/export-stage-clip.mjs"
+    "export:clip": "node scripts/export-stage-clip.mjs",
+    "generate:surfaces": "node scripts/generate-microscope-surface-textures.mjs"
   },
   "devDependencies": {
     "jpeg-js": "^0.4.4",

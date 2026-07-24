@@ -44,6 +44,15 @@ test("textured microscope and replacement clip assets are publishable GLBs", asy
   }
 });
 
+test("silver rail texture is a publishable JPEG", async () => {
+  const bytes = await readFile(new URL(
+    "assets/textures/microscope/tripo-part-16-silver.jpg",
+    ROOT,
+  ));
+  assert.deepEqual([...bytes.subarray(0, 3)], [0xff, 0xd8, 0xff]);
+  assert.ok(bytes.length > 1000);
+});
+
 test("main module loads only the supplied microscope model", async () => {
   const source = await read("src/main.js");
   assert.match(source, /travelling-microscope-textured\.glb/);
