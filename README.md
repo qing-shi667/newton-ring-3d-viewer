@@ -19,11 +19,23 @@ npm start
 
 - `index.html` and `styles.css`: responsive page layout.
 - `src/viewer.js`: Three.js viewer setup and camera controls.
-- `assets/models/source/travelling-microscope-source.glb`: the supplied microscope GLB displayed by the page.
+- `src/microscope-geometry.js`: stage-clip replacement logic.
+- `src/microscope-surface-corrections.js`: display-only rail and plaque material corrections.
+- `src/texture-recolor.js`: blue-to-silver pixel transform used by the texture generator.
+- `assets/models/source/travelling-microscope-textured.glb`: the uploaded textured microscope displayed by the page.
+- `assets/models/source/stage-clip-source.glb`: the corrected black stage-clip donor.
+- `assets/textures/microscope/tripo-part-1-silver.jpg`: generated silver-gray visible-rail texture.
+- `assets/textures/microscope/tripo-part-16-silver.jpg`: generated silver-gray rail texture.
+- `scripts/export-stage-clip.mjs`: reproducibly exports the donor from the original microscope source.
+- `scripts/generate-microscope-surface-textures.mjs`: reproducibly generates the rail texture.
 
 ## Model
 
-The supplied microscope GLB is loaded directly without mesh cleanup or additional procedural geometry.
+The uploaded textured microscope GLB is stored without changing its bytes. The viewer keeps all 41 embedded materials and JPEG textures, so labels, surface details, and photographed colors remain part of the displayed model.
+
+At runtime, only the two original stage-clip nodes are hidden. The page inserts the corrected black donor clip and a Z-axis mirrored copy around the glass-stage center. No other mesh or material in the textured model is replaced.
+
+The viewer converts the blue areas of `tripo_part_1` and `tripo_part_16` to silver gray while preserving their shading, and recolors the separate information and brand plaques (`tripo_part_11` and `tripo_part_30`) to match the surrounding body. These are runtime display corrections; the uploaded GLB remains byte-identical.
 
 ## GitHub Pages
 
