@@ -12,7 +12,8 @@
     "analyze:model": "node scripts/analyze-glb.mjs assets/models/source/newton-ring-source.glb",
     "clean:model": "node scripts/clean-newton-model.mjs",
     "inspect:model": "node scripts/export-component-map.mjs",
-    "render:model": "node scripts/render-component-projections.mjs"
+    "render:model": "node scripts/render-component-projections.mjs",
+    "export:clip": "node scripts/export-stage-clip.mjs"
   },
   "devDependencies": {
     "jpeg-js": "^0.4.4",

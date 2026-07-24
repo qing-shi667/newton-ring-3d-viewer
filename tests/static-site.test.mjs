@@ -31,11 +31,34 @@ test("page exposes only the microscope viewer", async () => {
   assert.match(html, /window\.addEventListener\("unhandledrejection"/);
 });
 
+test("textured microscope and replacement clip assets are publishable GLBs", async () => {
+  for (const name of [
+    "travelling-microscope-textured.glb",
+    "stage-clip-source.glb",
+  ]) {
+    const url = new URL(`assets/models/source/${name}`, ROOT);
+    const info = await stat(url);
+    const header = await readFile(url);
+    assert.equal(header.subarray(0, 4).toString("ascii"), "glTF");
+    assert.ok(info.size < 100 * 1024 * 1024, `${name} exceeds 100 MB`);
+  }
+});
+
 test("main module loads only the supplied microscope model", async () => {
   const source = await read("src/main.js");
   assert.match(source, /travelling-microscope-source\.glb/);
+  assert.match(source, /createMicroscopeMaterials/);
+  assert.match(source, /applyMicroscopeMaterials/);
+  assert.match(source, /repairMicroscopeStageClips/);
   assert.doesNotMatch(source, /newton-ring-clean\.glb/);
   assert.doesNotMatch(source, /createMicroscopeLowerAssembly/);
+  assert.doesNotMatch(source, /diagnosticMaterials/);
+});
+
+test("viewer uses filmic tone mapping to preserve metal detail", async () => {
+  const source = await read("src/viewer.js");
+  assert.match(source, /renderer\.toneMapping\s*=\s*THREE\.ACESFilmicToneMapping/);
+  assert.match(source, /renderer\.toneMappingExposure\s*=\s*0\.9/);
 });
 
 test("vendored Three.js modules include their browser dependencies", async () => {
