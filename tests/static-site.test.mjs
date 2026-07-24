@@ -58,6 +58,9 @@ test("main module loads only the supplied microscope model", async () => {
   assert.match(source, /travelling-microscope-textured\.glb/);
   assert.match(source, /stage-clip-source\.glb/);
   assert.match(source, /replaceTexturedStageClips/);
+  assert.match(source, /tripo-part-16-silver\.jpg/);
+  assert.match(source, /applyMicroscopeSurfaceCorrections/);
+  assert.match(source, /loadColorTexture/);
   assert.doesNotMatch(source, /createMicroscopeMaterials/);
   assert.doesNotMatch(source, /applyMicroscopeMaterials/);
   assert.doesNotMatch(source, /newton-ring-clean\.glb/);
