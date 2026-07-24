@@ -20,6 +20,17 @@ function frameObject(camera, controls, object, padding = 1.45) {
   controls.saveState();
 }
 
+export function loadModelScene(modelUrl) {
+  return new Promise((resolve, reject) => {
+    new GLTFLoader().load(
+      modelUrl,
+      (gltf) => resolve(gltf.scene),
+      undefined,
+      reject,
+    );
+  });
+}
+
 export function createModelViewer({ container, modelUrl, onLoaded }) {
   const status = container.querySelector(".viewer-status");
   const scene = new THREE.Scene();
@@ -29,6 +40,8 @@ export function createModelViewer({ container, modelUrl, onLoaded }) {
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 0.9;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   container.appendChild(renderer.domElement);
@@ -38,12 +51,12 @@ export function createModelViewer({ container, modelUrl, onLoaded }) {
   controls.dampingFactor = 0.07;
   controls.enablePan = true;
 
-  scene.add(new THREE.HemisphereLight(0xffffff, 0x879398, 2.2));
-  const key = new THREE.DirectionalLight(0xffffff, 3.4);
+  scene.add(new THREE.HemisphereLight(0xffffff, 0x879398, 1.05));
+  const key = new THREE.DirectionalLight(0xffffff, 2.4);
   key.position.set(4, 6, 5);
   key.castShadow = true;
   scene.add(key);
-  const fill = new THREE.DirectionalLight(0x8ac7cf, 1.1);
+  const fill = new THREE.DirectionalLight(0x8ac7cf, 0.65);
   fill.position.set(-4, 2, -4);
   scene.add(fill);
 
@@ -53,7 +66,7 @@ export function createModelViewer({ container, modelUrl, onLoaded }) {
   const loader = new GLTFLoader();
   loader.load(
     modelUrl,
-    (gltf) => {
+    async (gltf) => {
       const model = gltf.scene;
       model.traverse((child) => {
         if (!child.isMesh) return;
@@ -61,9 +74,15 @@ export function createModelViewer({ container, modelUrl, onLoaded }) {
         child.receiveShadow = true;
       });
       root.add(model);
-      if (onLoaded) onLoaded({ root, model, scene });
+      try {
+        await onLoaded?.({ root, model, scene });
+        status.hidden = true;
+      } catch (error) {
+        console.error(error);
+        status.textContent = "夹片替换失败，已显示原始贴图模型。";
+        status.classList.add("is-error");
+      }
       frameObject(camera, controls, root);
-      status.hidden = true;
     },
     (event) => {
       if (!event.total) return;
